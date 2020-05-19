@@ -6,6 +6,7 @@
 	[Cognome] [nvarchar](50) NULL,
 	[Eta] [nvarchar](50) NULL,
 	[CreationDate] [datetime] NULL,
+	[Deleted] [bit] NULL,
  CONSTRAINT [PK_Persons] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
