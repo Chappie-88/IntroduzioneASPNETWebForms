@@ -1,10 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Import.aspx.cs" Inherits="Introduzione.Import" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="EditUser.aspx.cs" Inherits="Introduzione.EditUser" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Import</title>
+    <title>Edit User</title>
     <link href="wwwroot/bootstrap-4.4.1-dist/css/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-4">
                     Password:
-                     <asp:TextBox ID="TXTPassword" runat="server" TextMode="Password" class="form-control"></asp:TextBox>
+                     <asp:TextBox ID="TXTPassword" runat="server" class="form-control"></asp:TextBox>
                 </div>
                 <div class="col-2"></div>
             </div>
@@ -47,9 +47,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12">
-                    <!--<asp:GridView ID="GRDPerson" runat="server"></asp:GridView>-->
-                    <asp:Table ID="TBLPerson" runat="server"></asp:Table>
+                <div class="col-12 text-center">
+                    <asp:Label runat="server" ID="LBLOutput"></asp:Label>
                 </div>
             </div>
         </div>

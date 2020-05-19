@@ -38,6 +38,75 @@ namespace Introduzione
             }
         }
 
+        public static Person getPersonByID(Guid id)
+        {
+            Person person = null;
+            string connectionString = WebConfigurationManager.ConnectionStrings["MainDB"].ConnectionString;
+            string query = "select * from [dbo].[Persons] where [ID] = @id";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    DataTable dt = new DataTable();
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@id", id);
+                    connection.Open();
+                    using (SqlDataAdapter da = new SqlDataAdapter(command))
+                    {
+                        da.Fill(dt);
+                    }
+                    person = new Person();
+                    person.ID = Guid.Parse(dt.Rows[0]["ID"].ToString());
+                    person.Nome = dt.Rows[0]["Nome"].ToString();
+                    person.Cognome = dt.Rows[0]["Cognome"].ToString();
+                    person.Eta = dt.Rows[0]["Eta"].ToString();
+                    person.Username = dt.Rows[0]["Username"].ToString();
+                    person.Password = dt.Rows[0]["Password"].ToString();
+                }
+                catch (Exception ex)
+                {
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+                return person;
+            }
+        }
+
+        public static string updatePerson(Person p)
+        {
+            string outputMessage = string.Empty;
+            string connectionString = WebConfigurationManager.ConnectionStrings["MainDB"].ConnectionString;
+            string query = "update [dbo].[Persons] set [Username]=@username, [Password]=@password, [Nome]=@nome, [Cognome]=@cognome ,[Eta]=@eta where [ID] = @id";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@id", p.ID);
+                    command.Parameters.AddWithValue("@username", p.Username);
+                    command.Parameters.AddWithValue("@password", p.Password);
+                    command.Parameters.AddWithValue("@nome", p.Nome);
+                    command.Parameters.AddWithValue("@cognome", p.Cognome);
+                    command.Parameters.AddWithValue("@eta", p.Eta);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    outputMessage = "User was succesfully updated";
+                }
+                catch (Exception ex)
+                {
+                    outputMessage = "Error updating user";
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+            return outputMessage;
+        }
+
         public static List<Person> getAllPersons()
         {
             List<Person> persone = new List<Person>();

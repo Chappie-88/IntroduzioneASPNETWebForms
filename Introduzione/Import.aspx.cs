@@ -9,15 +9,10 @@ namespace Introduzione
 {
     public partial class Import : System.Web.UI.Page
     {
+        //alle 19.15 faremo insieme la parte di edit !!
+
         /*
          implementare funzionalità di edit/delete:
-            EDIT:
-                - al click sul tasto edit reindirizzare a una pagina di edit
-                coi relativi fields e permettere l'update dei dati su DB
-                (l'id dell'utente viene già salvato nella Session["EditUserID"]
-                dal click del button: usare quello come "Where" nella query di
-                update)
-
             DELETE:
                 - al click settare il campo Deleted sul DB come true
         */
@@ -87,12 +82,7 @@ namespace Introduzione
         protected void EditButton_Click(object sender, EventArgs e)
         {
             Session["EditUserID"] = ((Button)sender).ID;
-
-
-
-
-
-
+            Response.Redirect("EditUser.aspx", true);
         }
     }
 }
