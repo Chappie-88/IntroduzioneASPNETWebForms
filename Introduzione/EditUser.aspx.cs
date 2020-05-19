@@ -39,7 +39,6 @@ namespace Introduzione
                 persona.Username = TXTUsername.Text;
                 persona.Password = TXTPassword.Text;
                 LBLOutput.Text = DAL.updatePerson(persona);
-                Session["EditUserID"] = null;
             }
         }
     }
