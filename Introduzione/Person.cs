@@ -13,6 +13,7 @@ namespace Introduzione
         public string Nome { get; set; }
         public string Cognome { get; set; }
         public string Eta { get; set; }
-        public DateTime CreationDate { get; set; }       
+        public DateTime? CreationDate { get; set; }
+        public bool? Deleted { get; set; }
     }
 }

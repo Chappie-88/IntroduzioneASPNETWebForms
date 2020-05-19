@@ -9,12 +9,10 @@ namespace Introduzione
 {
     public partial class Import : System.Web.UI.Page
     {
-        //alle 19.15 faremo insieme la parte di edit !!
-
         /*
          implementare funzionalità di edit/delete:
             DELETE:
-                - al click settare il campo Deleted sul DB come true
+                - al click settare il campo Deleted sul DB come true (delete logica)
         */
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -43,6 +41,8 @@ namespace Introduzione
             TableCell nameHeaderCell = new TableCell();
             TableCell lastNameHeaderCell = new TableCell();
             TableCell ageHeaderCell = new TableCell();
+            TableCell editHeaderCell = new TableCell();
+            TableCell deleteHeaderCell = new TableCell();
             nameHeaderCell.Text = "Nome";
             lastNameHeaderCell.Text = "Cognome";
             ageHeaderCell.Text = "Età";
@@ -50,6 +50,8 @@ namespace Introduzione
             headerRow.Cells.Add(nameHeaderCell);
             headerRow.Cells.Add(lastNameHeaderCell);
             headerRow.Cells.Add(ageHeaderCell);
+            headerRow.Cells.Add(editHeaderCell);
+            headerRow.Cells.Add(deleteHeaderCell);
             TBLPerson.Rows.Add(headerRow);
             TBLPerson.Attributes.Add("class", "table");
 
@@ -61,19 +63,31 @@ namespace Introduzione
                 TableCell lastNamecell = new TableCell();
                 TableCell ageCell = new TableCell();
                 TableCell editButtonCell = new TableCell();
+                TableCell deleteButtonCell = new TableCell();
+
                 nameCell.Text = p.Nome;
                 lastNamecell.Text = p.Cognome;
                 ageCell.Text = p.Eta;
+
                 Button editButton = new Button();
-                editButton.ID = p.ID.ToString();
+                editButton.ID = p.ID.ToString() + "Edit";
                 editButton.Text = "Edit";
                 editButton.Click += this.EditButton_Click;
                 editButton.Attributes.Add("class", "btn btn-warning btn-sm");
                 editButtonCell.Controls.Add(editButton);
+
+                Button deleteButton = new Button();
+                deleteButton.ID = p.ID.ToString() + "Delete";
+                deleteButton.Text = "Delete";
+                deleteButton.Click += this.DeleteButton_Click;
+                deleteButton.Attributes.Add("class", "btn btn-danger btn-sm");
+                deleteButtonCell.Controls.Add(deleteButton);
+
                 row.Cells.Add(nameCell);
                 row.Cells.Add(lastNamecell);
                 row.Cells.Add(ageCell);
                 row.Cells.Add(editButtonCell);
+                row.Cells.Add(deleteButtonCell);
                 TBLPerson.Rows.Add(row);
             }
             TBLPerson.DataBind();
@@ -81,8 +95,14 @@ namespace Introduzione
 
         protected void EditButton_Click(object sender, EventArgs e)
         {
-            Session["EditUserID"] = ((Button)sender).ID;
+            Session["EditUserID"] = ((Button)sender).ID.Replace("Edit", "");
             Response.Redirect("EditUser.aspx", true);
+        }
+
+        protected void DeleteButton_Click(object sender, EventArgs e)
+        {
+            DAL.deletePerson(Guid.Parse(((Button)sender).ID.Replace("Delete", "")));
+            generatePersonsTable();
         }
     }
 }

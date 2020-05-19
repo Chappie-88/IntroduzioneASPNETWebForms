@@ -12,6 +12,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
+                    <asp:Button ID="BTNBack" runat="server" Text="Back" OnClick="BTNBack_Click" class="btn btn-sm btn-warning" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
                     <asp:Label ID="LBLWelcome" runat="server" Text="Label"></asp:Label>
                 </div>
             </div>

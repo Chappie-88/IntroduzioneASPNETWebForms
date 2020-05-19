@@ -41,5 +41,9 @@ namespace Introduzione
                 LBLOutput.Text = DAL.updatePerson(persona);
             }
         }
+        protected void BTNBack_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Import.aspx", true);
+        }
     }
 }

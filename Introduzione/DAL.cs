@@ -13,7 +13,7 @@ namespace Introduzione
         public static void insertPerson(Person p)
         {
             string connectionString = WebConfigurationManager.ConnectionStrings["MainDB"].ConnectionString;
-            string query = "insert into [dbo].[Persons] values (newid(), @username, @password, @nome, @cognome, @eta, getdate())";
+            string query = "insert into [dbo].[Persons] ([ID],[Username],[Password],[Nome],[Cognome],[Eta],[CreationDate],[Deleted]) values (newid(), @username, @password, @nome, @cognome, @eta, getdate(), 0)";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -42,7 +42,7 @@ namespace Introduzione
         {
             Person person = null;
             string connectionString = WebConfigurationManager.ConnectionStrings["MainDB"].ConnectionString;
-            string query = "select * from [dbo].[Persons] where [ID] = @id";
+            string query = "select * from [dbo].[Persons] where [ID] = @id and [Deleted] = 0";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -79,7 +79,7 @@ namespace Introduzione
         {
             string outputMessage = string.Empty;
             string connectionString = WebConfigurationManager.ConnectionStrings["MainDB"].ConnectionString;
-            string query = "update [dbo].[Persons] set [Username]=@username, [Password]=@password, [Nome]=@nome, [Cognome]=@cognome ,[Eta]=@eta where [ID] = @id";
+            string query = "update [dbo].[Persons] set [Username]=@username, [Password]=@password, [Nome]=@nome, [Cognome]=@cognome, [Eta]=@eta where [ID] = @id";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -107,11 +107,34 @@ namespace Introduzione
             return outputMessage;
         }
 
+        public static void deletePerson(Guid id)
+        {
+            string connectionString = WebConfigurationManager.ConnectionStrings["MainDB"].ConnectionString;
+            string query = "update [dbo].[Persons] set [Deleted] = 1 where [ID] = @id";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@id", id);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
         public static List<Person> getAllPersons()
         {
             List<Person> persone = new List<Person>();
             string connectionString = WebConfigurationManager.ConnectionStrings["MainDB"].ConnectionString;
-            string query = "SELECT [ID],[Nome],[Cognome],[Eta] FROM [dbo].[Persons] order by CreationDate desc";
+            string query = "SELECT [ID],[Nome],[Cognome],[Eta] FROM [dbo].[Persons] where [Deleted] = 0 order by CreationDate desc";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -149,7 +172,7 @@ namespace Introduzione
         {
             bool toSender = false;
             string connectionString = WebConfigurationManager.ConnectionStrings["MainDB"].ConnectionString;
-            string query = "SELECT [ID] FROM [dbo].[Persons] where [Username] = @username and [Password] = @password";
+            string query = "SELECT [ID] FROM [dbo].[Persons] where [Username] = @username and [Password] = @password and [Deleted] = 0";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
