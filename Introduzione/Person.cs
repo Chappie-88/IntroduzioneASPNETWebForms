@@ -15,6 +15,5 @@ namespace Introduzione
         public string Eta { get; set; }
         public DateTime? CreationDate { get; set; }
         public bool? Deleted { get; set; }
-        /**/
     }
 }
