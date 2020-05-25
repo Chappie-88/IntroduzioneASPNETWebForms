@@ -8,6 +8,7 @@ using System.Web.Configuration;
 
 namespace Introduzione
 {
+    /**/
     public static class DAL //data access layer
     {
         public static void insertPerson(Person p)
