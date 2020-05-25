@@ -9,11 +9,6 @@ namespace Introduzione
 {
     public partial class Import : System.Web.UI.Page
     {
-        /*
-         implementare funzionalità di edit/delete:
-            DELETE:
-                - al click settare il campo Deleted sul DB come true (delete logica)
-        */
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["username"] == null)
